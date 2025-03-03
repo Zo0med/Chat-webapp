@@ -1,0 +1,17 @@
+# Chatapp
+# Disclaimer: This project is not build to be a real webapp, security procedures may be implemented wrongly. 
+
+This is the front-end of a for fun project, feel free to examine the code used in this repository.
+
+# Purpose 
+
+Learn new libraries and implement authentication processes like JWT auth and secure password management.
+
+# How it works
+
+This project has been splitted into two parts, the frontend developed with the React framework and the backend part done with nodejs, express framework and socket.io libraty, the database used is a NOSQL type(MongoDB) and the interaction between the db and Nodejs server is managed by the mongoose library. The database used is community atlas server, locally hosted.
+
+
+# License 
+
+MIT
