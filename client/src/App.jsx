@@ -11,6 +11,7 @@ function App() {
     }, []);
     return(
         <>
+        <Nav />   
          <div className="app-container">
             {loading ? (
                 <div className="spinner"></div>
@@ -21,7 +22,6 @@ function App() {
                 </div>
             )}
         </div>
-         <Nav />   
         </>
     )
 }

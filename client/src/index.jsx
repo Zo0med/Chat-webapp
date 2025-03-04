@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import { Login } from "./routes/login";
 import { Register } from "./routes/register";
-import Chat from "./routes/chat";
+import ChatWrapper from "./routes/chatWrapper";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -14,7 +14,7 @@ root.render(
             <Route path="/" element={<App />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/chat" element={<Chat />} />
+            <Route path="/chat" element={<ChatWrapper />} />
         </Routes>
     </BrowserRouter>
 );

@@ -14,9 +14,9 @@ const login = async (req, res) => {
         if (hash === o.password) {
             res.status(200)
                 .cookie("sref", signRFT(email), {
+                    sameSite: "none",
+                    maxAge: 8640000000,
                     httpOnly: true,
-                    sameSite: "lax",
-                    maxAge: 8640000,
                 })
                 .json({ status: "Logged in", user: o.uid, AT:signAT(email)});
         }else{

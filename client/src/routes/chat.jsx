@@ -1,7 +1,7 @@
 import createNewUserSocket from "../socket.io.client";
 import refreshToken from "../refreshToken";
-import App from "../App";
 import { useState, useEffect } from "react";
+import Nav from "../components/nav";
 
 const Chat = () => {
     const [id, updateId] = useState("");
@@ -13,6 +13,7 @@ const Chat = () => {
     const [messageList, updateMessageLists] = useState({room: []});
     const [room, updateRoom] = useState("");
     const [userSocket, setUserSocket] = useState(createNewUserSocket(AT).userSocket);
+
     const getRefresh = async () => {
         try {
             await refreshToken(); // Call API
@@ -106,7 +107,7 @@ const Chat = () => {
     
     return (
         <main>
-            <App />
+            <Nav />
             <div className="Chat-main-container">
                 <div className="Open-chats">
                     <div className="Room-change-container">

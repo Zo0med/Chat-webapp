@@ -1,16 +1,17 @@
 const refreshToken = async () => {
     try{
-        await fetch("http://localhost:3001/auth/refresh", {
+        const response = await fetch("http://localhost:3001/auth/refresh", {
             credentials: "include",
             method: "GET"
         })
-        .then(data => data.json())
-        .then(data => {
-            localStorage.setItem("user", data.user);
-            localStorage.setItem("AT", data.AT);
-            console.log("New access token", data.AT);
-            return data.AT;
-        })
+
+        if(!response.ok){
+            alert("Log in again")
+            throw new Error("Log in again");
+        }
+
+        localStorage.setItem("AT", response.json())
+        return response.json();
     }catch(err){
         console.log(err)
     }

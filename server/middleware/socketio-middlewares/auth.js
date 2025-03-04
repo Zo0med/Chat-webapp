@@ -18,7 +18,6 @@ const auth = async (socket, next) => {
             console.log("Triggering refresh...");
             socket.emit("r", { message: err.message });
         }
-
         return next(err); // Continue but with an error (might disconnect the client)
     }
 };
