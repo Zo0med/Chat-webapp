@@ -3,61 +3,25 @@ import refreshToken from "../refreshToken";
 import App from "../App";
 import { useState, useEffect } from "react";
 
-let AT = localStorage.getItem("AT");
-let { userSocket, id } = createNewUserSocket(AT);
-
 const Chat = () => {
+    const [id, updateId] = useState("");
+    const [AT, updateAT] = useState(localStorage.getItem("AT"))
     const [currentRoom, updateCurrentRoom] = useState("");
     const [RoomName, updateRoomName] = useState("");
     const [message, updateMessage] = useState("");
     const [activeChatRooms, updateActiveChatRooms] = useState([]);
     const [messageList, updateMessageLists] = useState({room: []});
     const [room, updateRoom] = useState("");
-    
-    useEffect(() => {
-        userSocket.on("require_userid", () => {
-            let userid = localStorage.getItem("user");
-            userSocket.emit("send_userid", userid);
-        });
-        userSocket.on("receive_message_room", (dataObject) => {
-            updateMessageLists(prevMessages => {
-                let newMessages = { ...prevMessages };
-                console.log("test");
-                if (newMessages[dataObject.room]) {
-                    newMessages[dataObject.room].push({
-                        user: dataObject.user,
-                        message: dataObject.message,
-                        time: dataObject.time
-                    });
-                } else {
-                    newMessages[dataObject.room]=[{
-                        user: dataObject.user,
-                        msg: [{ user: dataObject.user, message: dataObject.message, time: dataObject.time }],
-                        time: dataObject.time
-                    }];
-                }
-                return newMessages;
-            });
-        });
-
-        userSocket.on("id", (dataId) => {
-            id = dataId;
-        });
-
-        userSocket.on("connect_error", async (err) => {
-            if (err.message === "jwt expired" || err.message === "jwt malformed") {
-                await getRefresh();
-                let newAT = localStorage.getItem("AT");
-                userSocket = createNewUserSocket(newAT).userSocket;
-            } else {
-                console.log(err.message);
-                console.error("Server is unreliable");
-            }
-        });
-    }, []);
-
+    const [userSocket, setUserSocket] = useState(createNewUserSocket(AT).userSocket);
     const getRefresh = async () => {
-        await refreshToken();
+        try {
+            await refreshToken(); // Call API
+            let newAT = localStorage.getItem("AT");
+            console.log("Updated Access Token:", newAT);
+            updateAT(newAT);
+        } catch (error) {
+            console.error("Error refreshing token:", error);
+        }
     };
 
     const joinRoom = () => {
@@ -88,6 +52,58 @@ const Chat = () => {
         }
     };
 
+    useEffect(() => {
+        if (!userSocket) return; // Wait until the socket is initialized
+
+        console.log("Setting up socket listeners...");
+
+            userSocket.on("receive_message_room", (dataObject) => {
+            console.log("Received message:", dataObject);
+            updateMessageLists(prevMessages => {
+                let newMessages = { ...prevMessages };
+                if (newMessages[dataObject.room]) {
+                    newMessages[dataObject.room].push({
+                        user: dataObject.user,
+                        message: dataObject.message,
+                        time: dataObject.time
+                    });
+                } else {
+                    newMessages[dataObject.room] = [{
+                        user: dataObject.user,
+                        message: dataObject.message,
+                        time: dataObject.time
+                    }];
+                }
+                return newMessages;
+            });
+        });
+
+        userSocket.on("r", async (err) => {
+            try{
+                console.log("Refreshing token...");
+                await getRefresh();
+                let newAT = localStorage.getItem("AT");
+                console.log("New token:", newAT);
+                
+                userSocket.disconnect();
+                let newSocket = createNewUserSocket(newAT).userSocket;
+                console.log("New socket created:", newSocket);
+                setUserSocket(newSocket);
+                updateAT(newAT);
+            }catch(err){
+                console.log(err);
+            }
+        });
+    
+        return () => {
+            console.log("Cleaning up socket listeners...");
+            userSocket.off("require_userid");
+            userSocket.off("receive_message_room");
+            userSocket.off("id");
+            userSocket.off("refresh");
+        };
+    }, [userSocket]);
+    
     return (
         <main>
             <App />
