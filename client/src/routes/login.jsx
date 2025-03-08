@@ -16,6 +16,7 @@ const Login = () => {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({ email, password }),
+                    credentials: "include"
                 })
                 .then((data) => data.json())
                 .then((data) => {

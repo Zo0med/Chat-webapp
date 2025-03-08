@@ -11,10 +11,10 @@ require("dotenv").config();
 const errorHandlerMiddleware = require("./middleware/error-handler.js");
 
 app.use(express.json());
-app.use(express.static("./build"));
+app.use(express.static("../client/build"));
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://127.0.0.1:3000", "http://127.0.0.1:3001", "http://localhost:3001"],
     credentials: true,
     exposedHeaders: "Set-Cookie",
     methods: ["POST", "GET"],
