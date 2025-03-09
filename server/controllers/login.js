@@ -15,8 +15,10 @@ const login = async (req, res) => {
             res.status(200)
                 .cookie("sref", signRFT(email), {
                     sameSite: "lax",
+                    httpOnly: true, 
                     secure: false, // Set to true for https
                     maxAge: 8640000000,
+                    httpOnly: true,
                 })
                 .json({ status: "Logged in", user: o.uid, AT:signAT(email)});
         }else{
