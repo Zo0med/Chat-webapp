@@ -11,15 +11,17 @@ const Chat = () => {
     const [activeChatRooms, updateActiveChatRooms] = useState([]);
     const [messageList, updateMessageLists] = useState({room: []});
     const [room, updateRoom] = useState("");
-    const [isConnected, setIsConnected] = useState(true);
     const [AT , updateAT] = useState(null);
+    const [isConnected, setIsConnected] = useState(false);
     // Socket given by context
     const socket = useSocket();
     
     const getRefresh = async () => {
         try {
-            await refreshToken(); // Call API
-            let newAT = localStorage.getItem("AT");
+            const response = await refreshToken(); // Call API
+            console.log(response);
+            localStorage.setItem("AT", response.AT);
+            const newAT=response.AT;
             console.log("Updated Access Token:", newAT);
             updateAT(newAT);
         } catch (error) {
@@ -27,9 +29,9 @@ const Chat = () => {
         }
     };
 
-    const joinRoom = () => {
-        if (currentRoom !== "") {
-            socket.emit("JOIN", currentRoom);
+    const joinRoom = (room) => {
+        if (room !== "") {
+            socket.emit("JOIN", room);
         } else{
             throw new Error("Current room is null");
         }
@@ -44,13 +46,6 @@ const Chat = () => {
     const sendMessage = () => {
         if (message.trim() && currentRoom) {
             socket.emit("client_message_room", { user: localStorage.getItem("user"), message, room: currentRoom });
-            updateMessageLists(prevMessages => ({
-                ...prevMessages,
-                [currentRoom]: [
-                    ...(prevMessages[currentRoom] || []), // Use an empty array as fallback if currentRoom doesn't exist yet
-                    { user: localStorage.getItem("user"), message, time: new Date().toLocaleTimeString() },
-                ],
-            }));
             updateMessage("");
         }
     };
@@ -133,7 +128,7 @@ const Chat = () => {
                         {activeChatRooms.map((e, index) => (
                             <div key={index} className="ChatElement-container" onClick={() => {
                                 updateCurrentRoom(e.to);
-                                joinRoom();
+                                joinRoom(e.to);
                             }}>
                                 <div id="horizontal-flex">
                                     <h1 className="Title">{e.title}</h1> 
@@ -172,8 +167,18 @@ const Chat = () => {
                     <button className="SubmitBtn" onClick={sendMessage}>Submit</button>
                     <p className="id">Current room: {currentRoom}</p>
                     <p className="id">Id: {localStorage.getItem("user")}</p>
-                    <button onClick={() => {!socket.connected ? socket.connect() : socket.disconnect(); setIsConnected(socket.connected) }}>Connect/Disconnect</button>
-                    <p>Status: {isConnected ? "🟢 Connected" : "🔴 Disconnected"}</p>
+                    <button onClick={() => {
+                        if(!socket.connected){
+                            socket.connect();
+                            socket.connected=true;
+                        }else{
+                            socket.disconnect();
+                            socket.connected=false;
+                        }
+                        console.log("Chat.jsx' Socket status: ", socket.connected) 
+                        setIsConnected(socket.connected);
+                    }}>Connect/Disconnect</button>
+                    <p>Status: { isConnected ? "🟢 Connected" : "🔴 Disconnected"}</p>
                 </div>
             </div>
         </main>

@@ -16,6 +16,7 @@ const login = async (req, res) => {
                 .cookie("sref", signRFT(email), {
                     sameSite: "lax",
                     secure: false, // Set to true for https
+                    httpOnly: true,
                     maxAge: 8640000000,
                 })
                 .json({ status: "Logged in", user: o.uid, AT:signAT(email)});

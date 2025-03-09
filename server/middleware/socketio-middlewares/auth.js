@@ -6,7 +6,7 @@ const auth = async (socket, next) => {
     try {
         let { AT } = socket.handshake.auth;
         if (!AT) throw new Error("jwt must be provided");
-        console.log("middleware2");
+        console.log("AT verifier middleware");
         const dec = verify(AT, process.env.JWT_SECRET);
         const user = await userModel.findOne({ email: dec.email });
         if (!user) throw new Error("User not found");

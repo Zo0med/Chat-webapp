@@ -44,10 +44,9 @@ io.on("connect", (socket) => {
         reverseUserStorage.set(userid, socket.id);
     });
     socket.on("JOIN", (room) => {
-        console.log(room);
-        console.log("join");
+        console.log("A user has joined room:", room);
         if (!room) {
-        socket.emit("connect_error", "need_refresh");
+          socket.emit("connect_error", "need_refresh");
         }
         socket.join(room);
         socket
@@ -59,16 +58,14 @@ io.on("connect", (socket) => {
     });
     socket.on("client_message_room", (data) => {
         console.log(data);
-        socket
-        .to(data.room)
-        .emit("receive_message_room", {
+        io.to(data.room).emit("receive_message_room", {
             room: data.room,
             user: data.user,
             message: data.message,
-            time: Date.now().toLocaleString(),
+            time: new Date().toLocaleTimeString(),
         });
     });
-    socket.on("disconnect", (disconnectedSocket) => {
+    socket.on("disconnect", () => {
         console.log("Client disconnected:", socket.id);
     });
 });

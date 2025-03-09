@@ -4,7 +4,7 @@ const { InternalError } = require('../../error');
 require('dotenv').config({path:"../../"})
 const refreshMiddleware = async (req, res, next) => {
     try {
-        console.log("middleware1")
+        console.log("Refresh middleware")
         if(!req.headers.cookie) throw new InternalError("Login again");
         const sref = req.headers.cookie;
         const RFT = sref.split("=")[1]

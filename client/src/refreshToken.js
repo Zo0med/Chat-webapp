@@ -9,8 +9,7 @@ const refreshToken = async () => {
             alert("Log in again")
             throw new Error("Log in again");
         }
-
-        localStorage.setItem("AT", response.json())
+        console.log("Refresh is ok");
         return response.json();
     }catch(err){
         console.log(err)
