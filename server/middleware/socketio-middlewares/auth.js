@@ -16,7 +16,7 @@ const auth = async (socket, next) => {
         console.log("Auth error:", err.message);
         if (["jwt expired", "jwt malformed", "jwt must be provided"].includes(err.message)) {
             console.log("Triggering refresh...");
-            socket.emit("r", { message: err.message });
+            socket.emit("refresh", { message: err.message });
         }
         return next(err); // Continue but with an error (might disconnect the client)
     }

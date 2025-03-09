@@ -11,7 +11,7 @@ const refreshMiddleware = async (req, res, next) => {
         const dec = jwt.verify(RFT, process.env.REFRESH_SECRET)
         const q = await UserModel.findOne({email: dec.email})
         const newAT = jwt.sign({email: dec.email}, process.env.JWT_SECRET, { 
-            expiresIn: "30s"
+            expiresIn: "1m"
         })
         res.status(200)
             .json({user: q.uid, AT:newAT })

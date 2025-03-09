@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.static("./build"));
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://localhost:3002"],
     credentials: true,
     exposedHeaders: "Set-Cookie",
     methods: ["POST", "GET"],

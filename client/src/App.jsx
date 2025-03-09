@@ -3,13 +3,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "./routes/login";
 import { Register } from "./routes/register";
 import ChatWrapper from "./routes/chatWrapper";
-import { SocketProvider } from "./context/SocketContext";
-
+import Main from "./routes/main";
 function App() {
     return(
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<App />} />
+                <Route path="/" element={<Main />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/chat" element={<ChatWrapper />} />

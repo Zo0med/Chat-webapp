@@ -2,7 +2,7 @@ import refreshToken from "../refreshToken";
 import { useState, useEffect, useContext} from "react";
 import ConnectionManager from "../connectionManager";
 import Nav from "../components/nav";
-import SocketContext from "../context/SocketContext";
+import {useSocket} from "../context/SocketContext";
 
 const Chat = () => {
     const [currentRoom, updateCurrentRoom] = useState("");
@@ -14,7 +14,7 @@ const Chat = () => {
     const [isConnected, setIsConnected] = useState(true);
     const [AT , updateAT] = useState(null);
     // Socket given by context
-    const socket = useContext(SocketContext);
+    const socket = useSocket();
     
     const getRefresh = async () => {
         try {
@@ -27,9 +27,9 @@ const Chat = () => {
         }
     };
 
-    const joinRoom = (uSocket) => {
+    const joinRoom = () => {
         if (currentRoom !== "") {
-            uSocket.emit("JOIN", currentRoom);
+            socket.emit("JOIN", currentRoom);
         } else{
             throw new Error("Current room is null");
         }
@@ -41,9 +41,9 @@ const Chat = () => {
         updateRoomName("");
     }
 
-    const sendMessage = (uSocket) => {
+    const sendMessage = () => {
         if (message.trim() && currentRoom) {
-            uSocket.emit("client_message_room", { user: localStorage.getItem("user"), message, room: currentRoom });
+            socket.emit("client_message_room", { user: localStorage.getItem("user"), message, room: currentRoom });
             updateMessageLists(prevMessages => ({
                 ...prevMessages,
                 [currentRoom]: [
@@ -57,6 +57,7 @@ const Chat = () => {
 
     useEffect(() => {
         updateAT(localStorage.getItem("AT"));
+        console.log(socket)
         if (!socket) return; // Wait until the socket is initialized
         console.log("Setting up socket listeners...");
 
@@ -81,7 +82,7 @@ const Chat = () => {
             });
         });
 
-        socket.on("r", async (err) => {
+        socket.on("refresh", async () => {
             try{
                 console.log("Refreshing token...");
                 await getRefresh();
@@ -99,14 +100,10 @@ const Chat = () => {
     
         return () => {
             console.log("Cleaning up socket listeners...");
-            socket.off("connect", setIsConnected(true))
-            socket.off("disconnect", setIsConnected(false))
-            socket.off("require_userid");
             socket.off("receive_message_room");
-            socket.off("id");
-            socket.off("refresh");
+            socket.off("r");
         };
-    }, []);
+    }, [socket]);
     
     return (
         <main>
@@ -175,7 +172,7 @@ const Chat = () => {
                     <button className="SubmitBtn" onClick={sendMessage}>Submit</button>
                     <p className="id">Current room: {currentRoom}</p>
                     <p className="id">Id: {localStorage.getItem("user")}</p>
-                    <button onClick={() => ConnectionManager(socket, isConnected)}>Connect/Disconnect</button>
+                    <button onClick={() => {!socket.connected ? socket.connect() : socket.disconnect(); setIsConnected(socket.connected) }}>Connect/Disconnect</button>
                     <p>Status: {isConnected ? "🟢 Connected" : "🔴 Disconnected"}</p>
                 </div>
             </div>

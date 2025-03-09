@@ -1,7 +1,7 @@
-import Nav from "./components/nav";
+import Nav from "../components/nav";
 import { useState, useEffect } from "react";
 
-function main() {
+function Main() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -24,4 +24,4 @@ function main() {
         </>
     )
 }
-export default main;
+export default Main;
