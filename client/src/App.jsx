@@ -1,28 +1,20 @@
 import "./App.css";
-import Nav from "./components/nav";
-import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Login } from "./routes/login";
+import { Register } from "./routes/register";
+import ChatWrapper from "./routes/chatWrapper";
+import { SocketProvider } from "./context/SocketContext";
 
 function App() {
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        // Simulate loading for 2 seconds
-        setTimeout(() => setLoading(false), 500);
-    }, []);
     return(
-        <>
-        <Nav />   
-         <div className="app-container">
-            {loading ? (
-                <div className="spinner"></div>
-            ) : (
-                <div>
-                    <h1>Welcome to My Chatapp!</h1>
-                    <p>To use this simulation please signup in the register page</p>
-                </div>
-            )}
-        </div>
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<App />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/chat" element={<ChatWrapper />} />
+            </Routes>
+        </BrowserRouter>
     )
 }
 export default App;

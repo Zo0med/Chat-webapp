@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Nav from "../components/nav";
 import vLogIn from "../verifyLogin";
 import Chat from "./chat";
+import { SocketProvider } from "../context/SocketContext";
 
 const ChatWrapper = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -21,7 +22,11 @@ const ChatWrapper = () => {
         return <p>Loading...</p>; // Show a loading state while checking login
     }
     
-    return isLoggedIn ? <Chat /> : (
+    return isLoggedIn ? (
+        <SocketProvider>
+            <Chat />
+        </SocketProvider>
+    ) : (
         <>
             <Nav />
             <h1>Log in again</h1>
