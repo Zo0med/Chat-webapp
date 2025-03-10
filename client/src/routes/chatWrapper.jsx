@@ -29,7 +29,7 @@ const ChatWrapper = () => {
     ) : (
         <>
             <Nav />
-            <h1>Log in again</h1>
+            <h1 className="translate">Log in again</h1>
         </>
     );
 };
