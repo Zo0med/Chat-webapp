@@ -14,7 +14,6 @@ ChatApp is a simple real-time chat application built as a fun project to explore
 
 - **React.js** – Used for building the user interface
 - **React Router** – Enables navigation between different views
-- **Axios** – Handles HTTP requests to the backend
 
 ### Backend:
 
@@ -47,8 +46,8 @@ To run this project locally, follow these steps:
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/your-repo/chatapp.git
-   cd chatapp
+   git clone https://github.com/Zo0med/Chat-webapp.git
+   cd Chat-webapp
    ```
 
 2. Configure the database connection:
