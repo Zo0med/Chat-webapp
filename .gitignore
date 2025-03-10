@@ -4,3 +4,7 @@
 /client/node_modules
 /client/package-lock.json
 /server/package-lock.json
+/server/pubAT.pem
+/server/AT.pem
+/server/ref.pem
+/server/pubref.pem

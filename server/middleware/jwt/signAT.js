@@ -1,8 +1,10 @@
 const {sign} = require('jsonwebtoken')
-
-const signAT = (email) => {
-    const AT = sign({email, date:Date.now*Math.random()}, process.env.JWT_SECRET, {
-        expiresIn: "1m"
+const fs = require('fs')
+const ATkey = fs.readFileSync('../../AT.pem')
+const signAT = (email, uuid) => {
+    const AT = sign({email, uuid, type:"access"}, ATkey, {
+        expiresIn: "1m",
+        algorithm: "RS256",
     })
     console.log("AT: ",AT);
     return AT;
