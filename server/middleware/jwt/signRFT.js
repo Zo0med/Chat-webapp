@@ -1,8 +1,10 @@
 const {sign} = require('jsonwebtoken')
-
-const signRFT = (email) => {
-    return sign({email}, process.env.REFRESH_SECRET, {
-        expiresIn: "7d"
+const fs = require('fs')
+const refkey=fs.readFileSync('ref.pem')
+const signRFT = (email, uuid) => {
+    return sign({email, uuid, type:"refresh"}, refkey, {
+        expiresIn: "14d",
+        algorithm: "RS256",
     })
 }
 

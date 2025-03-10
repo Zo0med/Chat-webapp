@@ -1,11 +1,16 @@
 import { useState } from "react";
 import Nav from "../components/nav";
-
+import { useEffect } from "react";
 const Register = () => {
     const [email, updateEmail] = useState("");
     const [password, updatePassword] = useState("");
     const [id, updateId] = useState("");
+    const [loading, setLoading] = useState(true);
     
+    useEffect(() => {
+        // Simulate loading
+        setTimeout(() => setLoading(false), 500);
+    }, []);
     const registerRequest = async () => {
         if (id !== "" && email !== "" && password !== "") {
             updateEmail(email.toLocaleLowerCase())
@@ -52,7 +57,12 @@ const Register = () => {
     return (
         <main>
             <Nav />
-            <div className="form-container">
+            {loading ?(
+                <div className="app-container">
+                    <div className="spinner"></div>
+                </div>
+            ): (
+                <div className="form-container">
                 <form className="form" onSubmit={handleSubmit}>
                     <h1>Register</h1>
                     <input
@@ -92,7 +102,8 @@ const Register = () => {
                         onSubmit={registerRequest}
                     />
                 </form>
-            </div>
+            </div>  
+            )}
         </main>
     );
 };

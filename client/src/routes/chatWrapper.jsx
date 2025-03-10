@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Nav from "../components/nav";
 import vLogIn from "../verifyLogin";
-import Chat from "./chat";
+import Chat from "../components/chat";
 import { SocketProvider } from "../context/SocketContext";
 
 const ChatWrapper = () => {
