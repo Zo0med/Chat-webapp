@@ -38,9 +38,13 @@ const Chat = () => {
     };
 
     const addRoom = () => {
-        updateActiveChatRooms(prevRooms => [...prevRooms, { title: RoomName, from: "", to: room, lastmessage: "" }]);
-        updateRoom("");
-        updateRoomName("");
+        if(room !== "" && RoomName !==""){
+            updateActiveChatRooms(prevRooms => [...prevRooms, { title: RoomName, from: "", to: room, lastmessage: "" }]);
+            updateRoom("");
+            updateRoomName("");
+        }else{
+            alert("Fill in all room info")
+        }
     }
 
     const sendMessage = () => {
@@ -101,7 +105,7 @@ const Chat = () => {
     }, [socket]);
     
     return (
-        <main>
+        <main id="chat-main">
             <Nav />
             <div className="Chat-main-container">
                 <div className="Open-chats">
@@ -142,43 +146,44 @@ const Chat = () => {
                         ))}
                     </div>
                 </div>
-                <div className="Chat-body">
-                    {messageList[currentRoom] ? (
-                        messageList[currentRoom].map((msg, index) => (
-                            <div key={index} className="message">
-                                <strong>{msg.user}:</strong> {msg.message} <span>{msg.time}</span>
-                            </div>
-                            ))
-                        ) : (
-                            <p>No messages yet</p>  
-                        )
-                    }
-                </div>
-
-                <div className="message-input">
-                    <input
-                        type="text"
-                        className="input"
-                        placeholder="Write a message"
-                        value={message}
-                        onChange={(event) => updateMessage(event.target.value)}
-                        onKeyDown={(event) => event.key === "Enter" && sendMessage()}
-                    />
-                    <button className="SubmitBtn" onClick={sendMessage}>Submit</button>
-                    <p className="id">Current room: {currentRoom}</p>
-                    <p className="id">Id: {localStorage.getItem("user")}</p>
-                    <button onClick={() => {
-                        if(!socket.connected){
-                            socket.connect();
-                            socket.connected=true;
-                        }else{
-                            socket.disconnect();
-                            socket.connected=false;
+                <div className="chat-main">
+                    <div className="Chat-body">
+                        {messageList[currentRoom] ? (
+                            messageList[currentRoom].map((msg, index) => (
+                                <div key={index} className="message">
+                                    <strong>{msg.user}:</strong> {msg.message} <span>{msg.time}</span>
+                                </div>
+                                ))
+                            ) : (
+                                <p>No messages yet</p>  
+                            )
                         }
-                        console.log("Chat.jsx' Socket status: ", socket.connected) 
-                        setIsConnected(socket.connected);
-                    }}>Connect/Disconnect</button>
-                    <p>Status: { isConnected ? "🟢 Connected" : "🔴 Disconnected"}</p>
+                    </div>
+                    <div className="message-input">
+                        <input
+                            type="text"
+                            className="input"
+                            placeholder="Write a message"
+                            value={message}
+                            onChange={(event) => updateMessage(event.target.value)}
+                            onKeyDown={(event) => event.key === "Enter" && sendMessage()}
+                        />
+                        <button className="SubmitBtn" onClick={sendMessage}>Submit</button>
+                        <p className="id">Current room: {currentRoom}</p>
+                        <p className="id">Id: {localStorage.getItem("user")}</p>
+                        <button  className="SubmitBtn" id="connect" onClick={() => {
+                            if(!socket.connected){
+                                socket.connect();
+                                socket.connected=true;
+                            }else{
+                                socket.disconnect();
+                                socket.connected=false;
+                            }
+                            console.log("Chat.jsx' Socket status: ", socket.connected) 
+                            setIsConnected(socket.connected);
+                        }}>Connect/Disconnect</button>
+                        <p id="status">Status: { isConnected ? "🟢 Connected" : "🔴 Disconnected"}</p>
+                    </div>
                 </div>
             </div>
         </main>

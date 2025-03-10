@@ -1,7 +1,7 @@
 const { verify } = require("jsonwebtoken");
 const userModel = require("../../model/userModel");
 const fs = require('fs')
-const ATpubkey = fs.readFileSync('../../pubAT.pem')
+const ATpubkey = fs.readFileSync('pubAT.pem')
 require("dotenv").config("../../");
 
 const auth = async (socket, next) => {

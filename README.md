@@ -6,7 +6,7 @@ This project is intended for learning purposes only and is not designed for prod
 
 ## Overview
 
-ChatApp is a simple real-time chat application built as a fun project to explore new libraries and authentication processes, such as JWT authentication and secure password management. This repository contains the front-end implementation.
+ChatApp is a simple real-time chat application built as a fun project to explore new libraries and authentication processes, such as JWT authentication and secure password management.
 
 ## Tech Stack
 
@@ -40,6 +40,7 @@ To run this project locally, follow these steps:
 
 - Install **Node.js** and **npm**
 - Install **MongoDB Community Server**
+- Install **Openssl** to generate RSA keys
 
 ### Installation
 
@@ -60,21 +61,38 @@ To run this project locally, follow these steps:
 
 3. Choose a port (default is recommended to avoid conflicts).
 
-4. Install dependencies for both the frontend and backend:
+4. Generate RSA Keys
+   ```sh
+   cd server # Navigate to server directory
+
+   # Generate a private key for Access Token (AT)
+   openssl genpkey -algorithm RSA -out AT.pem -pkeyopt rsa_keygen_bits:2048 
+
+   # Extract the public key from the private key (AT)
+   openssl rsa -in AT.pem -pubout -out pubAT.pem 
+   
+   # Generate a private key for Refresh Token (RT)
+   openssl genpkey -algorithm RSA -out ref.pem -pkeyopt rsa_keygen_bits:2048
+
+   # Extract the public key from the private key (RT)
+   openssl rsa -in ref.pem -pubout -out pubref.pem
+   ```
+
+5. Install dependencies for both the frontend and backend:
 
    ```sh
    cd server && npm install
    cd ../client && npm install
    ```
 
-5. Build the frontend:
+6. Build the frontend:
 
    ```sh
    cd client
    npm run build
    ```
 
-6. Start the backend server:
+7. Start the backend server:
 
    ```sh
    cd ../server

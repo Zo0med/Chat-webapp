@@ -3,8 +3,8 @@ const UserModel = require('../../model/userModel');
 const { InternalError } = require('../../error');
 const fs = require('fs');
 require('dotenv').config({path:"../../"});
-const pubrefkey = fs.readFileSync('../../pubref.pem');
-const ATkey = fs.readFileSync('../../AT.pem');
+const pubrefkey = fs.readFileSync('pubref.pem');
+const ATkey = fs.readFileSync('AT.pem');
 const refreshMiddleware = async (req, res, next) => {
     try {
         console.log("Refresh middleware")

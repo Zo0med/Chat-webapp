@@ -1,3 +1,11 @@
+:root{
+    --nav-color: #030608;
+    --app-bg: #06090e;
+    --text-color-b: #767f88;
+    --link-color-b: #767f88;
+    --btn-bg: rgb(11, 14, 14);
+}
+
 @media screen and (min-width: 480px) {
 }
 @media screen and (min-width: 768px) {
@@ -8,7 +16,7 @@
         padding: 0;
     }
     body {
-        background: rgb(25, 23, 27);
+        background: var(--app-bg);
     }
 
     /* Navbar */
@@ -18,18 +26,20 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        position: absolute;
         width: 100%;
-        height: 9.5%;
+        height: 9%;
         left: 0px;
         top: 0px;
-        background: #01070c;
+        background: var(--nav-color);
+        color: var(--text-color-b);
     }
     /* Login and Signup */
     .form-container{
         display: flex;
         width: 100%;
         height: max-content;
-        top: 9.5%;
+        top: 9%;
         justify-content: center;
         align-items: center;
     }
@@ -42,7 +52,7 @@
         top: 50%;
         width: max-content;
         height: max-content;
-        background-color: #36414279;
+        background-color: #1d273579;
         padding: 20px;
         border-radius: 20px;
     }
@@ -74,7 +84,7 @@
         border-radius: 3px;
     }
     .form h1{
-        color:#20cbe2;
+        color: #5aadce;
     }
 
     /* Chat */
@@ -117,10 +127,10 @@
     .Open-chats {
         position: absolute;
         width: 22%;
-        height: 90.5%;
+        height: 91%;
         left: 0px;
-        top: 9.5%;
-        background: rgb(19, 17, 20);
+        top: 9%;
+        background: var(--nav-color);
     }
     .Room-change-container{
         display: flex;
@@ -129,7 +139,7 @@
         margin: 10px;
     }
     .Room-change-container .input{
-        background-color: rgb(49, 42, 40);
+        background-color: rgb(29, 34, 36);
         border: none;
         width: 70%;
         height: 2rem;
@@ -137,8 +147,8 @@
         margin: 3px;
     }
     .Room-change-container .SubmitBtn{
-        background-color: rgb(49, 42, 40);
-        color: rgba(28, 30, 32, 0.596);
+        background-color: rgb(29, 34, 36);
+        color: var(--text-color-b);
         border: none;
         width: 10%;
         margin-left: 5px;
@@ -157,12 +167,12 @@
     .ChatElement-container{
         display: flex;
         flex-direction: column;
-        background-color: rgba(70, 73, 69, 0.425);
+        background-color: rgba(41, 41, 41, 0.425);
         border-radius: 20px;
         margin: 0.2rem
     }
     .ChatElement-container:hover{
-        background-color: rgba(27, 140, 148, 0.425);
+        background-color: rgba(93, 94, 94, 0.425);
     }
     .content-container{
         display: flex;
@@ -171,7 +181,7 @@
     .ChatElement-container .Title{
         position: relative;
         left: 1rem;
-        color: rgba(35, 209, 180, 0.856);
+        color: rgba(122, 134, 132, 0.856);
     }
     .content-container p{
         position: relative;
@@ -187,10 +197,12 @@
     .Chat-body {
         position: absolute;
         width: 78%;
-        height: 90.5%;
+        height: 91%;
         left: 22%;
-        top: 9.5%;
-        background: rgb(37, 35, 35);
+        top: 9%;
+        bottom:10%;
+        background: var(--app-bg);
+        color: var(--text-color-b);
     }
     .message-input {
         display: flex;
@@ -201,18 +213,19 @@
         height: 10%;
         left: 22%;
         top: 90%;
-        background: rgb(25, 23, 27);
+        background: var(--nav-color);
     }
     .message-input input[type="text"]{
         width: 30%;
         height: 2rem;
-        background-color: rgba(75, 74, 80, 0.575);
+        background-color: var(--btn-bg);
         border: none;
         border-radius: 5px;
     } 
     .message-input .SubmitBtn{
-        background-color: rgba(75, 74, 80, 0.575);
-        color: #2e6d75;
+        background-color: var(--btn-bg);
+        padding: 5px;
+        color: var(--text-color-b);
         width: max-content;
         height: 1.8rem;
         border: none;
@@ -220,18 +233,24 @@
         margin-left: 0.2rem;
     }
     .message-input .SubmitBtn:hover{
-        background-color: rgba(20, 138, 132, 0.575);
+        background-color: rgb(39, 41, 41);
+    }
+    #connect{
+        margin-right: 1%;
+    }
+    #status{
+        color:var(--text-color-b);
     }
     .Link {
         padding: 1em;
         font-size: 30px;
         text-decoration: none;
-        color: white;
+        color: var(--link-color-b);
     }
     .id{
         display: flex;
         flex-direction: row;
-        color: #207985;
+        color: var(--link-color-b);
         font-size: 1em;
         margin: 2rem;
         font-style: italic;
@@ -246,7 +265,8 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #f5f5f5;
+        background-color: var(--app-bg);
+        color: var(--text-color-b);
     }
    /*  Main page */
     .spinner {
