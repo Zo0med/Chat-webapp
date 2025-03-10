@@ -11,10 +11,10 @@ require("dotenv").config();
 const errorHandlerMiddleware = require("./middleware/error-handler.js");
 
 app.use(express.json());
-app.use(express.static("./build"));
-app.use(
+// app.use(express.static("./build")); // Decomment for "production"
+app.use(  // Disable cors in case of Production
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3002"],
+    origin: ["http://localhost:3000"], 
     credentials: true,
     exposedHeaders: "Set-Cookie",
     methods: ["POST", "GET"],
