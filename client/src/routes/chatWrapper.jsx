@@ -3,6 +3,7 @@ import Nav from "../components/nav";
 import vLogIn from "../verifyLogin";
 import Chat from "../components/chat";
 import { SocketProvider } from "../context/SocketContext";
+import { Link } from "react-router-dom";
 
 const ChatWrapper = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -28,8 +29,13 @@ const ChatWrapper = () => {
         </SocketProvider>
     ) : (
         <>
-            <Nav />
-            <h1 className="translate">Log in again</h1>
+            <Nav activeTab={3}/>
+            <div id="translate">
+                <div id="error-wrapper">
+                    <h1>Please log in</h1>
+                    <Link to="/login" id="error-Link">Login</Link>
+                </div>
+            </div>
         </>
     );
 };
