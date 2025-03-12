@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Nav from "../components/nav";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 const Register = () => {
     const [email, updateEmail] = useState("");
     const [password, updatePassword] = useState("");
@@ -56,7 +57,7 @@ const Register = () => {
 
     return (
         <main>
-            <Nav />
+            <Nav activeTab={1}/>
             {loading ?(
                 <div className="app-container">
                     <div className="spinner"></div>
@@ -101,6 +102,7 @@ const Register = () => {
                         value="Submit"
                         onSubmit={registerRequest}
                     />
+                    <p className="form-text">Already Signed-up? <Link to="/login" className="form-link">Log in</Link></p>
                 </form>
             </div>  
             )}

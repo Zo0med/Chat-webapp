@@ -39,7 +39,7 @@ const Chat = () => {
 
     const addRoom = () => {
         if(room !== "" && RoomName !==""){
-            updateActiveChatRooms(prevRooms => [...prevRooms, { title: RoomName, from: "", to: room, lastmessage: "" }]);
+            updateActiveChatRooms(prevRooms => [...prevRooms, { title: RoomName, to: room }]);
             updateRoom("");
             updateRoomName("");
         }else{
@@ -106,7 +106,7 @@ const Chat = () => {
     
     return (
         <main id="chat-main">
-            <Nav />
+            <Nav activeTab={3}/>
             <div className="Chat-main-container">
                 <div className="Open-chats">
                     <div className="Room-change-container">
@@ -134,13 +134,9 @@ const Chat = () => {
                                 updateCurrentRoom(e.to);
                                 joinRoom(e.to);
                             }}>
-                                <div id="horizontal-flex">
+                                <div id="vertical-flex">
                                     <h1 className="Title">{e.title}</h1> 
-                                    <p>roomid:{e.to}</p>
-                                </div>
-                                <div className="content-container">
-                                    <p className="author">{e.from}:</p>
-                                    <p className="lastmessage">{e.lastmessage}</p>
+                                    <p>roomid: <span>{e.to}</span></p>
                                 </div>
                             </div>
                         ))}
@@ -148,16 +144,18 @@ const Chat = () => {
                 </div>
                 <div className="chat-main">
                     <div className="Chat-body">
-                        {messageList[currentRoom] ? (
-                            messageList[currentRoom].map((msg, index) => (
-                                <div key={index} className="message">
-                                    <strong>{msg.user}:</strong> {msg.message} <span>{msg.time}</span>
-                                </div>
-                                ))
-                            ) : (
-                                <p>No messages yet</p>  
-                            )
-                        }
+                        <div id="messages-container">
+                            {messageList[currentRoom] ? (
+                                messageList[currentRoom].map((msg, index) => (
+                                    <div key={index} className="message">
+                                        <strong>{msg.user}:</strong> {msg.message} <span>{msg.time}</span>
+                                    </div>
+                                    ))
+                                ) : (
+                                    <p>No messages yet</p>  
+                                )
+                            }
+                        </div>
                     </div>
                     <div className="message-input">
                         <input

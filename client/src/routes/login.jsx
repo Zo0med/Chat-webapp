@@ -1,5 +1,6 @@
 import Nav from "../components/nav";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 const Login = () => {
     const [email, updateEmail] = useState("");
     const [password, updatePassword] = useState("");
@@ -47,7 +48,7 @@ const Login = () => {
     };
     return (
         <main>
-            <Nav />
+            <Nav activeTab={2}/>
             {loading ? (
                 <div className="app-container">
                     <div className="spinner"></div>
@@ -86,6 +87,7 @@ const Login = () => {
                             value="Submit"
                             placeholder="Invia"
                         ></input>
+                        <p className="form-text">Not Signed-up? <Link to="/register" className="form-link">Sign up</Link></p>
                     </form>
                 </div>
             )}
